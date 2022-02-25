@@ -1,0 +1,29 @@
+{
+  "name": "request-mutator",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack --watch --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michael-braun/request-mutator.git"
+  },
+  "author": "Michael Braun",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michael-braun/request-mutator/issues"
+  },
+  "homepage": "https://github.com/michael-braun/request-mutator#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
