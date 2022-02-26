@@ -4,7 +4,7 @@ import updateDynamicRules from './updateDynamicRule';
 const STORAGE_KEY = 'request_rewrite';
 
 export default class RequestRewriteStorage {
-    async createRequestRewrite(config: Omit<RequestRewriteConfig, 'id'>): Promise<number> {
+    static async createRequestRewrite(config: Omit<RequestRewriteConfig, 'id'>): Promise<number> {
         const data = await this.getRequestRewritesRaw();
 
         const newId = data.data.length + 1;
@@ -20,7 +20,7 @@ export default class RequestRewriteStorage {
         return newId;
     }
 
-    async updateRequestRewrite(id: number, config: Partial<Omit<RequestRewriteConfig, 'id'>>) {
+    static async updateRequestRewrite(id: number, config: Partial<Omit<RequestRewriteConfig, 'id'>>) {
         const data = await this.getRequestRewritesRaw();
 
         data.data[id] = Object.assign(data.data[id], config);
@@ -29,7 +29,7 @@ export default class RequestRewriteStorage {
         await updateDynamicRules(data.data);
     }
 
-    async deleteRequestRewrite(id: number): Promise<boolean> {
+    static async deleteRequestRewrite(id: number): Promise<boolean> {
         const data = await this.getRequestRewritesRaw();
 
         const removedIds = data.data.map(i => i.id);
@@ -46,9 +46,16 @@ export default class RequestRewriteStorage {
         return true;
     }
 
-    private async getRequestRewritesRaw() {
-        const storageResponse = await chrome.storage.sync.get(STORAGE_KEY);
+    static async getRequestRewrites() {
+        return (await this.getRequestRewritesRaw()).data;
+    }
 
-        return (storageResponse || { ids: [], data: {} }) as RequestRewriteStorageState;
+    private static async getRequestRewritesRaw(): Promise<RequestRewriteStorageState> {
+        const storageResponse = await chrome.storage.sync.get(STORAGE_KEY);
+        if (!storageResponse?.data) {
+            return { data: [] };
+        }
+
+        return storageResponse as RequestRewriteStorageState;
     }
 }

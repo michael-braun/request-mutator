@@ -1,4 +1,5 @@
 import type { RequestRewriteConfig } from '../types/RequestRewriteStorage';
+import ResourceType = chrome.declarativeNetRequest.ResourceType;
 
 export default async function updateDynamicRules(rules: RequestRewriteConfig[], removedIds?: number[]) {
     if (!removedIds) {
