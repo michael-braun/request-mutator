@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, reply) => {
         return false;
     }
 
-    if (request.payload.method === 'GET' && request.payload.path === '/data') {
+    if (request.payload.method === 'GET' && request.payload.path === '/request-rewrites') {
         runInBackground(async () => {
             reply({
                 payload: {
