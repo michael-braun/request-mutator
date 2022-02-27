@@ -15,7 +15,6 @@ const RequestRewritesSlice = createSlice({
     initialState,
     extraReducers: builder => builder
         .addCase(loadRequestRewrites.fulfilled, (state, action) => {
-            console.log('action.payload', action.payload);
             ENTITY_ADAPTER_REQUEST_REWRITES.addMany(state.requestRewrites, action.payload.requestRewrites);
         }),
 });

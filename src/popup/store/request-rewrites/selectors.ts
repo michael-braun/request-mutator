@@ -5,3 +5,4 @@ const ENTITY_ADAPTER_REQUEST_REWRITES_SELECTORS = ENTITY_ADAPTER_REQUEST_REWRITE
 
 export const getRequestRewritesState = (state: RootState) => state.requestRewrites;
 export const getRequestRewriteIds = (state: RootState) => ENTITY_ADAPTER_REQUEST_REWRITES_SELECTORS.selectIds(getRequestRewritesState(state).requestRewrites);
+export const getRequestRewrite = (state: RootState, id: number) => ENTITY_ADAPTER_REQUEST_REWRITES_SELECTORS.selectById(getRequestRewritesState(state).requestRewrites, id);
