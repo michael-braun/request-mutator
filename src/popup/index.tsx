@@ -3,6 +3,7 @@ import React from 'react';
 import App from './components/App';
 import { Provider } from 'react-redux';
 import { Store } from './store';
+import { loadRequestRewrites } from './store/request-rewrites/actions';
 
 console.log('popup');
 
@@ -19,7 +20,8 @@ chrome.runtime.sendMessage({
 const rootEl = document.getElementById('app');
 
 async function bootstrap() {
-    console.log('React', React);
+    Store.dispatch(loadRequestRewrites());
+
     ReactDOM.render((
             <Provider store={Store}>
                 <App/>
