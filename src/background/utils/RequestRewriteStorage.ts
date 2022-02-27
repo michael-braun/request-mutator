@@ -47,16 +47,20 @@ export default class RequestRewriteStorage {
         return true;
     }
 
-    static async getRequestRewrites() {
+    static async getRequestRewrites(): Promise<RequestRewriteConfig[]> {
         return (await this.getRequestRewritesRaw()).data;
     }
 
+    static async getRequestRewrite(id: number): Promise<RequestRewriteConfig | null> {
+        return (await this.getRequestRewritesRaw()).data[id - 1] || null;
+    }
+
     private static async getRequestRewritesRaw(): Promise<RequestRewriteStorageState> {
-        const storageResponse = await chrome.storage.sync.get(STORAGE_KEY);
-        if (!storageResponse?.data) {
+        const storageResponse = await chrome.storage.sync.get();
+        if (!storageResponse?.[STORAGE_KEY]?.data) {
             return { data: [] };
         }
 
-        return storageResponse as RequestRewriteStorageState;
+        return storageResponse[STORAGE_KEY] as RequestRewriteStorageState;
     }
 }

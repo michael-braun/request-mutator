@@ -5,18 +5,6 @@ import { Provider } from 'react-redux';
 import { Store } from './store';
 import { loadRequestRewrites } from './store/request-rewrites/actions';
 
-console.log('popup');
-
-chrome.runtime.sendMessage({
-    type: 'request',
-    payload: {
-        method: 'GET',
-        path: '/data',
-    },
-}, function (response) {
-    console.log(response.payload.body);
-});
-
 const rootEl = document.getElementById('app');
 
 async function bootstrap() {
