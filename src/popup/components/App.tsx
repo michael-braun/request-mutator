@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { Box, Button } from '@mui/material';
+import RRList from './request-rewrite-list/RRList';
 
 const propTypes = {
 
@@ -16,6 +17,7 @@ const App: React.FunctionComponent<InferProps<typeof propTypes>> = () => {
                 minHeight: 400
             }}
         >
+            <RRList/>
             <Button variant="contained">Hello World</Button>
         </Box>
     );
