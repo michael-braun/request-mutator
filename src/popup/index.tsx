@@ -1,6 +1,8 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import App from './components/App';
+import { Provider } from 'react-redux';
+import { Store } from './store';
 
 console.log('popup');
 
@@ -19,7 +21,9 @@ const rootEl = document.getElementById('app');
 async function bootstrap() {
     console.log('React', React);
     ReactDOM.render((
-            <App/>
+            <Provider store={Store}>
+                <App/>
+            </Provider>
         ),
         rootEl
     );
