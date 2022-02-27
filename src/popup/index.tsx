@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
+import App from './components/App';
 
 console.log('popup');
 
@@ -18,9 +19,7 @@ const rootEl = document.getElementById('app');
 async function bootstrap() {
     console.log('React', React);
     ReactDOM.render((
-            <div>
-                Hello World!
-            </div>
+            <App/>
         ),
         rootEl
     );
