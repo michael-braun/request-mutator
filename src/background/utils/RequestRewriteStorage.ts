@@ -1,5 +1,6 @@
-import { RequestRewriteConfig, RequestRewriteStorageState } from '../types/RequestRewriteStorage';
 import updateDynamicRules from './updateDynamicRule';
+import type { RequestRewriteConfig } from '../../types/RequestRewriteConfig';
+import type { RequestRewriteStorageState } from '../types/RequestRewriteStorage';
 
 const STORAGE_KEY = 'request_rewrite';
 
