@@ -15,6 +15,8 @@ export default class RequestRewriteStorage {
             id: newId,
         });
 
+        console.log(config);
+
         await chrome.storage.sync.set({ [STORAGE_KEY]: data });
         await updateDynamicRules(data.data);
 
@@ -24,7 +26,7 @@ export default class RequestRewriteStorage {
     static async updateRequestRewrite(id: number, config: Partial<Omit<RequestRewriteConfig, 'id'>>) {
         const data = await this.getRequestRewritesRaw();
 
-        data.data[id] = Object.assign(data.data[id], config);
+        data.data[id - 1] = Object.assign(data.data[id - 1], config);
 
         await chrome.storage.sync.set({ [STORAGE_KEY]: data });
         await updateDynamicRules(data.data);
@@ -60,6 +62,8 @@ export default class RequestRewriteStorage {
         if (!storageResponse?.[STORAGE_KEY]?.data) {
             return { data: [] };
         }
+
+        console.log(storageResponse);
 
         return storageResponse[STORAGE_KEY] as RequestRewriteStorageState;
     }

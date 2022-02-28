@@ -10,7 +10,11 @@ chrome.declarativeNetRequest.getDynamicRules((...args: any[]) => {
     console.log(args);
 });
 
+const REGEX_PATCH_PATH = /^\/request-rewrites\/([0-9]*)$/;
+
 chrome.runtime.onMessage.addListener((request, sender, reply) => {
+    console.log('request', request);
+
     if (request.type !== 'request' || !request.payload || !request.payload.method || !request.payload.path) {
         return false;
     }
@@ -30,11 +34,41 @@ chrome.runtime.onMessage.addListener((request, sender, reply) => {
 
     if (request.payload.method === 'POST' && request.payload.path === '/request-rewrites') {
         runInBackground(async () => {
+            console.log('request', request);
             const createdId = await RequestRewriteStorage.createRequestRewrite(request.payload.body);
             const requestRewrite = await RequestRewriteStorage.getRequestRewrite(createdId);
 
             reply({
                 payload: {
+                    body: requestRewrite,
+                },
+            });
+        });
+        return true;
+    }
+
+    const patchPathMatch = request.payload.path.match(REGEX_PATCH_PATH);
+    console.log(request, patchPathMatch);
+    if (request.payload.method === 'PATCH' && patchPathMatch) {
+        const id = parseInt(patchPathMatch[1], 10);
+        if (!id) {
+            reply({
+                payload: {
+                    status: 400,
+                    body: null,
+                },
+            });
+            return true;
+        }
+
+        runInBackground(async () => {
+            console.log('request', request);
+            await RequestRewriteStorage.updateRequestRewrite(id, request.payload.body);
+            const requestRewrite = await RequestRewriteStorage.getRequestRewrite(id);
+
+            reply({
+                payload: {
+                    status: 200,
                     body: requestRewrite,
                 },
             });

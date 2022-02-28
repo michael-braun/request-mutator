@@ -6,7 +6,7 @@ type RequestRewriteFormProps = {
     replacement: string;
     onPatternChange: (pattern: string) => void;
     onReplacementChange: (replacement: string) => void;
-    onSaveClick: () => void;
+    onSaveClick?: () => void;
 };
 
 const RequestRewriteForm: React.FunctionComponent<RequestRewriteFormProps> = ({
@@ -25,7 +25,9 @@ const RequestRewriteForm: React.FunctionComponent<RequestRewriteFormProps> = ({
     }, [onReplacementChange]);
 
     const handleSaveClick = useCallback((event) => {
-        onSaveClick();
+        if (onSaveClick) {
+            onSaveClick();
+        }
     }, [onSaveClick]);
 
     return (
@@ -52,12 +54,14 @@ const RequestRewriteForm: React.FunctionComponent<RequestRewriteFormProps> = ({
                     mb: 1,
                 }}
             />
-            <Button
-                variant="contained"
-                onClick={handleSaveClick}
-            >
-                Speichern
-            </Button>
+            {!!onSaveClick && (
+                <Button
+                    variant="contained"
+                    onClick={handleSaveClick}
+                >
+                    Speichern
+                </Button>
+            )}
         </>
     );
 };
