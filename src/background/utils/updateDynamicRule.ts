@@ -1,4 +1,5 @@
 import ResourceType = chrome.declarativeNetRequest.ResourceType;
+import RuleActionType = chrome.declarativeNetRequest.RuleActionType;
 import type { RequestRewriteConfig } from '../../types/RequestRewriteConfig';
 
 export default async function updateDynamicRules(rules: RequestRewriteConfig[], removedIds?: number[]) {
@@ -10,7 +11,7 @@ export default async function updateDynamicRules(rules: RequestRewriteConfig[], 
         addRules: rules.map(r => ({
             id: r.id,
             action: {
-                type: 'redirect' as any,
+                type: RuleActionType.REDIRECT,
                 redirect: {
                     regexSubstitution: `\\1${r.replacement}\\2`,
                 }
@@ -18,8 +19,8 @@ export default async function updateDynamicRules(rules: RequestRewriteConfig[], 
             condition: {
                 regexFilter: `^(.*)${r.pattern}(.*)`,
                 resourceTypes: [
-                    'main_frame' as ResourceType,
-                    'sub_frame' as ResourceType,
+                    ResourceType.MAIN_FRAME,
+                    ResourceType.SUB_FRAME,
                 ],
             },
             priority: 1,

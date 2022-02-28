@@ -35,17 +35,26 @@ export const createRequestRewrite = createAsyncThunk('requestRewrites/createRequ
     };
 });
 
+export const deleteRequestRewrite = createAsyncThunk('requestRewrites/createRequestRewrite', async (id: number, thunkAPI) => {
+    await sendExtensionMessageWithResponse({
+        type: 'request',
+        payload: {
+            method: 'DELETE',
+            path: `/request-rewrites/${id}`,
+        },
+    });
+
+    thunkAPI.dispatch(loadRequestRewrites());
+});
+
 const updateRequestRewritePatches: Record<number, Partial<Omit<RequestRewriteConfig, 'id'>>> = {};
 const updateRequestRewriteCall = memoize((id: number) => debounce(async () => {
-    console.log('updatze 1');
     const patch = updateRequestRewritePatches[id];
     if (!patch) {
         return;
     }
 
     delete updateRequestRewritePatches[id];
-
-    console.log('updatze 2', patch);
 
     await sendExtensionMessageWithResponse({
         type: 'request',

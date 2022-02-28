@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadRequestRewrites, updateRequestRewrite } from './actions';
+import { createRequestRewrite, loadRequestRewrites, updateRequestRewrite } from './actions';
 import type { RequestRewritesState } from './types';
 import { FetchStatus } from '../../constants/fetch-status';
 import { ENTITY_ADAPTER_REQUEST_REWRITES } from './entity-adapter';
@@ -15,7 +15,7 @@ const RequestRewritesSlice = createSlice({
     initialState,
     extraReducers: builder => builder
         .addCase(loadRequestRewrites.fulfilled, (state, action) => {
-            ENTITY_ADAPTER_REQUEST_REWRITES.addMany(state.requestRewrites, action.payload.requestRewrites);
+            ENTITY_ADAPTER_REQUEST_REWRITES.setAll(state.requestRewrites, action.payload.requestRewrites);
         })
         .addCase(updateRequestRewrite, (state, action) => {
             const { id, ...changes } = action.payload;

@@ -37,11 +37,13 @@ export default class RequestRewriteStorage {
 
         const removedIds = data.data.map(i => i.id);
 
-        data.data.splice(id, 1);
+        data.data.splice(id - 1, 1);
 
-        for (let i = id, z = data.data.length; i < z; i += 1) {
-            data.data[i].id = i;
+        for (let i = id, z = data.data.length; i <= z; i += 1) {
+            data.data[i - 1].id = i;
         }
+
+        console.log('data.data', data.data);
 
         await chrome.storage.sync.set({ [STORAGE_KEY]: data });
         await updateDynamicRules(data.data, removedIds);

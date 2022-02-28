@@ -76,6 +76,31 @@ chrome.runtime.onMessage.addListener((request, sender, reply) => {
         return true;
     }
 
+    if (request.payload.method === 'DELETE' && patchPathMatch) {
+        const id = parseInt(patchPathMatch[1], 10);
+        if (!id) {
+            reply({
+                payload: {
+                    status: 400,
+                    body: null,
+                },
+            });
+            return true;
+        }
+
+        runInBackground(async () => {
+            console.log('request', request);
+            await RequestRewriteStorage.deleteRequestRewrite(id);
+
+            reply({
+                payload: {
+                    status: 204,
+                },
+            });
+        });
+        return true;
+    }
+
     console.log(
         sender.tab
             ? "from a content script:" + sender.tab.url

@@ -1,16 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import {
-    Accordion,
+    Accordion, AccordionActions,
     AccordionDetails,
-    AccordionSummary,
+    AccordionSummary, Box, IconButton,
     Typography
 } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { getRequestRewrite } from '../../store/request-rewrites/selectors';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux';
 import RequestRewriteForm from '../request-rewrite-form/RequestRewriteForm';
-import { updateRequestRewrite } from '../../store/request-rewrites/actions';
-
+import { deleteRequestRewrite, updateRequestRewrite } from '../../store/request-rewrites/actions';
 const propTypes = {
     id: PropTypes.number.isRequired,
 };
@@ -35,6 +35,11 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
         }));
     }, [id, dispatch]);
 
+    const handleDeleteClick = useCallback((event) => {
+        event.stopPropagation();
+        dispatch(deleteRequestRewrite(id));
+    }, [id, dispatch]);
+
     if (!requestRewrite) {
         return null;
     }
@@ -42,7 +47,27 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
     return (
         <Accordion>
             <AccordionSummary>
-                Test
+                <Box
+                    sx={{
+                        display: 'flex',
+                        width: '100%',
+                    }}
+                >
+                    <Typography
+                        sx={{
+                            flexGrow: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        Test
+                    </Typography>
+                    <IconButton
+                        onClick={handleDeleteClick}
+                    >
+                        <DeleteForeverIcon/>
+                    </IconButton>
+                </Box>
             </AccordionSummary>
             <AccordionDetails>
                 <RequestRewriteForm
