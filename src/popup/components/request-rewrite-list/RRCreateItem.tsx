@@ -26,7 +26,10 @@ const RrCreateItem: React.FunctionComponent<InferProps<typeof propTypes>> = () =
             pattern: patternValue,
             replacement: replacementValue,
         }));
-    }, [patternRef, replacementRef, dispatch]);
+
+        setPattern('');
+        setReplacement('');
+    }, [patternRef, replacementRef, dispatch, setPattern, setReplacement]);
 
     return (
         <Accordion>
