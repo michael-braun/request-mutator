@@ -17,6 +17,9 @@ const RequestRewritesSlice = createSlice({
         .addCase(loadRequestRewrites.fulfilled, (state, action) => {
             ENTITY_ADAPTER_REQUEST_REWRITES.setAll(state.requestRewrites, action.payload.requestRewrites);
         })
+        .addCase(createRequestRewrite.fulfilled, (state, action) => {
+            ENTITY_ADAPTER_REQUEST_REWRITES.addOne(state.requestRewrites, action.payload.requestRewrite);
+        })
         .addCase(updateRequestRewrite, (state, action) => {
             const { id, ...changes } = action.payload;
 
