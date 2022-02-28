@@ -15,13 +15,9 @@ chrome.runtime.onMessage.addListener((request, sender, reply) => {
         return false;
     }
 
-    console.log('get request', request);
-
     if (request.payload.method === 'GET' && request.payload.path === '/request-rewrites') {
         runInBackground(async () => {
             const requestRewrites = await RequestRewriteStorage.getRequestRewrites();
-
-            console.log('requestRewrites', requestRewrites);
 
             reply({
                 payload: {
@@ -36,8 +32,6 @@ chrome.runtime.onMessage.addListener((request, sender, reply) => {
         runInBackground(async () => {
             const createdId = await RequestRewriteStorage.createRequestRewrite(request.payload.body);
             const requestRewrite = await RequestRewriteStorage.getRequestRewrite(createdId);
-
-            console.log('created requestRewrite', createdId, requestRewrite)
 
             reply({
                 payload: {

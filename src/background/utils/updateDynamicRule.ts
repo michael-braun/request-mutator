@@ -12,11 +12,11 @@ export default async function updateDynamicRules(rules: RequestRewriteConfig[], 
             action: {
                 type: 'redirect' as any,
                 redirect: {
-                    regexSubstitution: 'https://example.com\\1',
+                    regexSubstitution: `\\1${r.replacement}\\2`,
                 }
             },
             condition: {
-                regexFilter: '^https://www.yahoo.com\?(.*)',
+                regexFilter: `^(.*)${r.pattern}(.*)`,
                 resourceTypes: [
                     'main_frame' as ResourceType,
                     'sub_frame' as ResourceType,
