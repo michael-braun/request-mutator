@@ -4,6 +4,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Button, TextField } from
 import useSyncedRef from '../../utils/hooks/useSyncedRef';
 import { useAppDispatch } from '../../utils/hooks/redux';
 import { createRequestRewrite } from '../../store/request-rewrites/actions';
+import RequestRewriteForm from '../request-rewrite-form/RequestRewriteForm';
 
 const propTypes = {
 
@@ -15,14 +16,6 @@ const RrCreateItem: React.FunctionComponent<InferProps<typeof propTypes>> = () =
 
     const patternRef = useSyncedRef(pattern);
     const replacementRef = useSyncedRef(replacement);
-
-    const handlePatternChange = useCallback((event) => {
-        setPattern(event.target.value);
-    }, [setPattern]);
-
-    const handleReplacementChange = useCallback((event) => {
-        setReplacement(event.target.value);
-    }, [setReplacement]);
 
     const dispatch = useAppDispatch();
     const handleSaveClick = useCallback(() => {
@@ -41,34 +34,13 @@ const RrCreateItem: React.FunctionComponent<InferProps<typeof propTypes>> = () =
                 Erstellen
             </AccordionSummary>
             <AccordionDetails>
-                <TextField
-                    label="Ersetze"
-                    autoComplete="off"
-                    fullWidth
-                    onChange={handlePatternChange}
-                    value={pattern}
-                    sx={{
-                        mt: 1,
-                        mb: 1,
-                    }}
+                <RequestRewriteForm
+                    pattern={pattern}
+                    replacement={replacement}
+                    onPatternChange={setPattern}
+                    onReplacementChange={setReplacement}
+                    onSaveClick={handleSaveClick}
                 />
-                <TextField
-                    label="Mit"
-                    autoComplete="off"
-                    fullWidth
-                    onChange={handleReplacementChange}
-                    value={replacement}
-                    sx={{
-                        mt: 1,
-                        mb: 1,
-                    }}
-                />
-                <Button
-                    variant="contained"
-                    onClick={handleSaveClick}
-                >
-                    Speichern
-                </Button>
             </AccordionDetails>
         </Accordion>
     );
