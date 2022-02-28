@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import RRList from './request-rewrite-list/RRList';
 
 const propTypes = {
 
 };
-
-console.log('Button', Button);
 
 const App: React.FunctionComponent<InferProps<typeof propTypes>> = () => {
     return (
@@ -18,7 +16,6 @@ const App: React.FunctionComponent<InferProps<typeof propTypes>> = () => {
             }}
         >
             <RRList/>
-            <Button variant="contained">Hello World</Button>
         </Box>
     );
 };
