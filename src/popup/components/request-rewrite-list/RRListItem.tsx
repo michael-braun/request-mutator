@@ -3,7 +3,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import {
     Accordion, AccordionActions,
     AccordionDetails,
-    AccordionSummary, Box, IconButton,
+    AccordionSummary, Box, Button, IconButton, Paper, Popover, Popper,
     Typography
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -36,9 +36,20 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
     }, [id, dispatch]);
 
     const handleDeleteClick = useCallback((event) => {
-        event.stopPropagation();
         dispatch(deleteRequestRewrite(id));
     }, [id, dispatch]);
+
+    const [anchorElement, setAnchorElement] = useState<HTMLDivElement | null>(null);
+
+    const handleDeleteOpenClick = useCallback((event) => {
+        event.stopPropagation();
+
+        setAnchorElement(event.target);
+    }, [setAnchorElement]);
+
+    const handeDeleteClose = useCallback(() => {
+        setAnchorElement(null);
+    }, [setAnchorElement]);
 
     if (!requestRewrite) {
         return null;
@@ -63,10 +74,37 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
                         Test
                     </Typography>
                     <IconButton
-                        onClick={handleDeleteClick}
+                        onClick={handleDeleteOpenClick}
                     >
                         <DeleteForeverIcon/>
                     </IconButton>
+                    <Popover
+                        open={!!anchorElement}
+                        anchorEl={anchorElement}
+                        onClose={handeDeleteClose}
+                    >
+                        <Box
+                            sx={{
+                                padding: 2,
+                            }}
+                        >
+                            <Typography>Möchtest Du diese Umleitung wirklich löschen?</Typography>
+                            <Box
+                                sx={{
+                                    textAlign: 'right',
+                                    pt: 1,
+                                }}
+                            >
+                                <Button
+                                    color="error"
+                                    onClick={handleDeleteClick}
+                                    variant="contained"
+                                >
+                                    Löschen
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Popover>
                 </Box>
             </AccordionSummary>
             <AccordionDetails>
