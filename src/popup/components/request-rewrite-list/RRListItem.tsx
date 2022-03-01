@@ -3,7 +3,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import {
     Accordion, AccordionActions,
     AccordionDetails,
-    AccordionSummary, Box, Button, IconButton, Paper, Popover, Popper,
+    AccordionSummary, Box, Button, IconButton, Paper, Popover, Popper, Switch,
     Typography
 } from '@mui/material';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -11,6 +11,11 @@ import { getRequestRewrite } from '../../store/request-rewrites/selectors';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks/redux';
 import RequestRewriteForm from '../request-rewrite-form/RequestRewriteForm';
 import { deleteRequestRewrite, updateRequestRewrite } from '../../store/request-rewrites/actions';
+
+const handleStopPropagation = (event: { stopPropagation: (() => void) }) => {
+    event.stopPropagation();
+};
+
 const propTypes = {
     id: PropTypes.number.isRequired,
 };
@@ -51,6 +56,13 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
         setAnchorElement(null);
     }, [setAnchorElement]);
 
+    const handleEnabledChange = useCallback((event) => {
+        console.log('change', event.target.checked);
+        dispatch(updateRequestRewrite(id, {
+            enabled: event.target.checked,
+        }));
+    }, [dispatch, id]);
+
     if (!requestRewrite) {
         return null;
     }
@@ -64,6 +76,11 @@ const RrListItem: React.FunctionComponent<InferProps<typeof propTypes>> = ({
                         width: '100%',
                     }}
                 >
+                    <Switch
+                        checked={requestRewrite.enabled}
+                        onChange={handleEnabledChange}
+                        onClick={handleStopPropagation}
+                    />
                     <Typography
                         sx={{
                             flexGrow: 1,

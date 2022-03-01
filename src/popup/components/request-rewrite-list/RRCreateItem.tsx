@@ -23,6 +23,7 @@ const RrCreateItem: React.FunctionComponent<InferProps<typeof propTypes>> = () =
         const replacementValue = replacementRef.current;
 
         dispatch(createRequestRewrite({
+            enabled: true,
             pattern: patternValue,
             replacement: replacementValue,
         }));
