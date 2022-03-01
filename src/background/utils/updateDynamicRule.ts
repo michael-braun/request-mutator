@@ -8,23 +8,25 @@ export default async function updateDynamicRules(rules: RequestRewriteConfig[], 
     }
 
     return await chrome.declarativeNetRequest.updateDynamicRules({
-        addRules: rules.map(r => ({
-            id: r.id,
-            action: {
-                type: RuleActionType.REDIRECT,
-                redirect: {
-                    regexSubstitution: `\\1${r.replacement}\\2`,
-                }
-            },
-            condition: {
-                regexFilter: `^(.*)${r.pattern}(.*)`,
-                resourceTypes: [
-                    ResourceType.MAIN_FRAME,
-                    ResourceType.SUB_FRAME,
-                ],
-            },
-            priority: 1,
-        })),
+        addRules: rules
+            .filter(r => r.enabled)
+            .map(r => ({
+                id: r.id,
+                action: {
+                    type: RuleActionType.REDIRECT,
+                    redirect: {
+                        regexSubstitution: `\\1${r.replacement}\\2`,
+                    }
+                },
+                condition: {
+                    regexFilter: `^(.*)${r.pattern}(.*)`,
+                    resourceTypes: [
+                        ResourceType.MAIN_FRAME,
+                        ResourceType.SUB_FRAME,
+                    ],
+                },
+                priority: 1,
+            })),
         removeRuleIds: removedIds,
     });
 }
