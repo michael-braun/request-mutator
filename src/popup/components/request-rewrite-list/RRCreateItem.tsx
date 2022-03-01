@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { Accordion, AccordionDetails, AccordionSummary, Button, TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, TextField, Typography } from '@mui/material';
 import useSyncedRef from '../../utils/hooks/useSyncedRef';
 import { useAppDispatch } from '../../utils/hooks/redux';
 import { createRequestRewrite } from '../../store/request-rewrites/actions';
@@ -34,7 +34,7 @@ const RrCreateItem: React.FunctionComponent<InferProps<typeof propTypes>> = () =
     return (
         <Accordion>
             <AccordionSummary>
-                Erstellen
+                <Typography>Erstellen</Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <RequestRewriteForm
