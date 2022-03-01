@@ -1,0 +1,27 @@
+name: NodeJS with Webpack
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16.x'
+
+    - name: Build
+      run: |
+        npm ci
+        npm run build
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "dist/*.zip"
+        token: ${{ secrets.GITHUB_TOKEN }}
